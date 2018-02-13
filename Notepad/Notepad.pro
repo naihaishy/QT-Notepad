@@ -27,15 +27,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         notepad.cpp \
-    md5dialog.cpp
+    md5dialog.cpp \
+    finddialog.cpp \
+    highlighter.cpp
 
 HEADERS += \
         notepad.h \
-    md5dialog.h
+    md5dialog.h \
+    finddialog.h \
+    highlighter.h
 
 FORMS += \
         notepad.ui \
-    md5dialog.ui
+    md5dialog.ui \
+    finddialog.ui
 
 RESOURCES += \
     resources.qrc

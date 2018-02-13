@@ -16,6 +16,8 @@
 #include <QTextCursor>
 #include <QDebug>
 
+#include "highlighter.h"
+
 namespace Ui {
 class Notepad;
 }
@@ -30,6 +32,8 @@ public:
     explicit Notepad(QWidget *parent = 0);
     ~Notepad();
 
+protected:
+    void openFindReplaceDialog(QString flag);
 private slots:
     void on_actionNew_triggered();
 
@@ -53,8 +57,6 @@ private slots:
 
     void on_actionDelete_triggered();
 
-    void showFindText();
-
     void on_actionFind_triggered();
 
     void on_actionMD5_triggered();
@@ -77,18 +79,20 @@ private slots:
 
     void on_actionConvert_UL_triggered();
 
+    void on_actionReplace_triggered();
+
 private:
     Ui::Notepad *ui;
     QString CurrentFile;
     bool isUntitled;
     bool hasSaved;
 
-    // 查找功能对话框
-    QLineEdit *findLineEdit;
-    QDialog *findDlg;
-
     // 状态栏
     QLabel *statusLabel;
+
+    //语法高亮
+    Highlighter *highlighter;
+
 
     bool loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);

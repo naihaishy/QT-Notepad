@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     translator.load(":/language/NotepadI18N_zh_CN.qm");
     a.installTranslator(&translator);
     Notepad w;
+    w.resize(640, 512);
     w.show();
     return a.exec();
 }

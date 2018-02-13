@@ -1,6 +1,8 @@
 #include "notepad.h"
 #include "ui_notepad.h"
 #include "md5dialog.h"
+#include "finddialog.h"
+
 
 Notepad::Notepad(QWidget *parent) : QMainWindow(parent), ui(new Ui::Notepad)
 {
@@ -13,6 +15,10 @@ Notepad::Notepad(QWidget *parent) : QMainWindow(parent), ui(new Ui::Notepad)
     isUntitled = true;
     hasSaved = false;
     CurrentFile = "Untitled.txt";
+
+    //语法高亮
+    highlighter = new Highlighter(ui->textEdit->document());
+
 
     // 状态栏
     // 正常状态信息
@@ -228,31 +234,21 @@ void Notepad::on_actionDelete_triggered()
     ui->textEdit->cut();
 }
 
-void Notepad::showFindText()
+void Notepad::openFindReplaceDialog(QString flag)
 {
-    QString str = findLineEdit->text();
-    if(!ui->textEdit->find(str, QTextDocument::FindBackward))
-    {
-        QMessageBox::warning(this, tr("Find"), tr("Can't find %1").arg(str));
-    }
-
+    FindDialog *dlg = new FindDialog(this, flag);
+    dlg->docmainEdit = ui->textEdit;
+    dlg->show();
 }
 
 void Notepad::on_actionFind_triggered()
 {
-    // 查找功能对话框的初始化
-    findDlg = new QDialog(this);
-    findDlg->setWindowTitle(tr("Find"));
-    findLineEdit = new QLineEdit(findDlg);
-    QPushButton *btn= new QPushButton(tr("Find Next One"), findDlg);
-    QVBoxLayout *layout= new QVBoxLayout(findDlg);
-    layout->addWidget(findLineEdit);
-    layout->addWidget(btn);
+    openFindReplaceDialog("find");
+}
 
-    // 关联信号与槽
-    connect(btn, SIGNAL(clicked()), this, SLOT(showFindText()));
-    // 显示对话框
-    findDlg->show();
+void Notepad::on_actionReplace_triggered()
+{
+    openFindReplaceDialog("replace");
 }
 
 void Notepad::on_actionMD5_triggered()
@@ -381,3 +377,5 @@ void Notepad::on_actionConvert_UL_triggered()
     // 设置光标对象
     ui->textEdit->setTextCursor(cursor);
 }
+
+
