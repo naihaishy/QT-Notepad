@@ -16,11 +16,26 @@ Notepad::Notepad(QWidget *parent) : QMainWindow(parent), ui(new Ui::Notepad)
     hasSaved = false;
     CurrentFile = "Untitled.txt";
 
-    //语法高亮
+    //语法高亮 C++
     highlighter = new Highlighter(ui->textEdit->document());
 
+    //高亮当前行
+    highlightCurrentLine();
+    connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     // 状态栏
+    showStatusBar();
+
+}
+
+Notepad::~Notepad()
+{
+    delete ui;
+}
+
+/***状态栏***/
+void Notepad::showStatusBar()
+{
     // 正常状态信息
     statusLabel = new QLabel();
     statusLabel->setMinimumSize(150,20);
@@ -35,15 +50,29 @@ Notepad::Notepad(QWidget *parent) : QMainWindow(parent), ui(new Ui::Notepad)
     permanentLabel->setTextFormat(Qt::RichText);
     permanentLabel->setOpenExternalLinks(true);
     ui->statusBar->addPermanentWidget(permanentLabel);
-
 }
 
-Notepad::~Notepad()
+/***SLOT:高亮当前行***/
+void Notepad::highlightCurrentLine()
 {
-    delete ui;
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (!ui->textEdit->isReadOnly()) {
+
+        QTextEdit::ExtraSelection selection;
+
+        QColor lineColor = QColor(Qt::yellow).lighter(160);
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        selection.cursor = ui->textEdit->textCursor();
+        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+    }
+    ui->textEdit->setExtraSelections(extraSelections);
 }
 
-// 加载文件
+/***加载文件***/
 bool Notepad::loadFile(const QString &fileName)
 {
     QFile file(fileName); // 新建QFile对象
@@ -68,7 +97,7 @@ bool Notepad::loadFile(const QString &fileName)
     return true;
 }
 
-// 在执行action之前检测当前文档是否已经保存
+/***在执行action之前检测当前文档是否已经保存***/
 bool Notepad::saveBeforeAction()
 {
     // 当前文档被更改
@@ -94,7 +123,7 @@ bool Notepad::saveBeforeAction()
     return true;
 }
 
-// 保存文件
+/***保存文件***/
 bool Notepad::save()
 {
     if(isUntitled) // 文档以前没有保存过
@@ -105,6 +134,7 @@ bool Notepad::save()
     }
 }
 
+/***文件另存为***/
 bool Notepad::saveFileAs()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save as"), CurrentFile, tr("Document(*.txt)"));
@@ -143,7 +173,7 @@ bool Notepad::saveFile(const QString &fileName)
 
 }
 
-// 直接关闭窗口
+/***直接关闭窗口事件处理***/
 void Notepad::closeEvent(QCloseEvent *event)
 {
     if(saveBeforeAction())
@@ -154,7 +184,7 @@ void Notepad::closeEvent(QCloseEvent *event)
     }
 }
 
-
+/***SLOT:新建***/
 void Notepad::on_actionNew_triggered()
 {
     if(saveBeforeAction())
@@ -169,6 +199,7 @@ void Notepad::on_actionNew_triggered()
 
 }
 
+/***SLOT:打开***/
 void Notepad::on_actionOpen_triggered()
 {
     if(saveBeforeAction())
@@ -181,17 +212,19 @@ void Notepad::on_actionOpen_triggered()
     }
 }
 
+/***SLOT:保存***/
 void Notepad::on_actionSave_triggered()
 {
     save();
 }
 
-
+/***SLOT:另存为***/
 void Notepad::on_actionSave_as_triggered()
 {
     saveFileAs();
 }
 
+/***SLOT:字体***/
 void Notepad::on_actionFont_triggered()
 {
     bool fontSelected;
@@ -201,6 +234,7 @@ void Notepad::on_actionFont_triggered()
     }
 }
 
+/***SLOT:退出***/
 void Notepad::on_actionExit_triggered()
 {
     if(saveBeforeAction()){
@@ -209,31 +243,37 @@ void Notepad::on_actionExit_triggered()
     }
 }
 
+/***SLOT:撤销***/
 void Notepad::on_actionUndo_triggered()
 {
     ui->textEdit->undo();
 }
 
+/***SLOT:剪切***/
 void Notepad::on_actionCut_triggered()
 {
     ui->textEdit->cut();
 }
 
+/***SLOT:复制***/
 void Notepad::on_actionCopy_triggered()
 {
     ui->textEdit->copy();
 }
 
+/***SLOT:粘贴***/
 void Notepad::on_actionPaste_triggered()
 {
     ui->textEdit->paste();
 }
 
+/***SLOT:删除***/
 void Notepad::on_actionDelete_triggered()
 {
     ui->textEdit->cut();
 }
 
+/***:查找和替换***/
 void Notepad::openFindReplaceDialog(QString flag)
 {
     FindDialog *dlg = new FindDialog(this, flag);
@@ -241,27 +281,32 @@ void Notepad::openFindReplaceDialog(QString flag)
     dlg->show();
 }
 
+/***SLOT:查找***/
 void Notepad::on_actionFind_triggered()
 {
     openFindReplaceDialog("find");
 }
 
+/***SLOT:替换***/
 void Notepad::on_actionReplace_triggered()
 {
     openFindReplaceDialog("replace");
 }
 
+/***SLOT:MD5***/
 void Notepad::on_actionMD5_triggered()
 {
     MD5Dialog *dlg = new MD5Dialog(this);
     dlg->show();
 }
 
+/***SLOT:博客***/
 void Notepad::on_actionBlog_triggered()
 {
     QDesktopServices::openUrl(QUrl(tr("http://www.zhfsky.com")));
 }
 
+/***SLOT:Base64 Encode***/
 void Notepad::on_actionBase64_Encode_triggered()
 {
     QByteArray input;
@@ -270,6 +315,7 @@ void Notepad::on_actionBase64_Encode_triggered()
     ui->textEdit->setText(output);
 }
 
+/***SLOT:Base64 Decode***/
 void Notepad::on_actionBase64_Decode_triggered()
 {
     QByteArray input;
@@ -287,7 +333,7 @@ void Notepad::on_actionURL_Decode_triggered()
 {
 
 }
-
+/***SLOT:打开***/
 void Notepad::on_actionConvert_to_Upper_triggered()
 {
     // 当前cursor对象

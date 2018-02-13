@@ -15,6 +15,7 @@
 #include <QDesktopServices>
 #include <QTextCursor>
 #include <QDebug>
+#include <QTextEdit>
 
 #include "highlighter.h"
 
@@ -34,7 +35,9 @@ public:
 
 protected:
     void openFindReplaceDialog(QString flag);
+    void showStatusBar();
 private slots:
+    void highlightCurrentLine();
     void on_actionNew_triggered();
 
     void on_actionOpen_triggered();
