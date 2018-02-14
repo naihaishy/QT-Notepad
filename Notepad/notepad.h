@@ -16,13 +16,15 @@
 #include <QTextCursor>
 #include <QDebug>
 #include <QTextEdit>
+#include <QPainter>
+#include <QPlainTextEdit>
+#include <QClipboard>
 
 #include "highlighter.h"
 
 namespace Ui {
 class Notepad;
 }
-
 
 
 class Notepad : public QMainWindow
@@ -33,9 +35,13 @@ public:
     explicit Notepad(QWidget *parent = 0);
     ~Notepad();
 
+
+
 protected:
     void openFindReplaceDialog(QString flag);
     void showStatusBar();
+
+
 private slots:
     void highlightCurrentLine();
     void on_actionNew_triggered();
@@ -84,6 +90,7 @@ private slots:
 
     void on_actionReplace_triggered();
 
+    void updateMenuActionStatus();
 private:
     Ui::Notepad *ui;
     QString CurrentFile;
@@ -93,9 +100,10 @@ private:
     // 状态栏
     QLabel *statusLabel;
 
+     QClipboard *clip;
+
     //语法高亮
     Highlighter *highlighter;
-
 
     bool loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);
@@ -103,6 +111,8 @@ private:
     bool save();
     bool saveBeforeAction();
     void closeEvent(QCloseEvent *event); // 关闭事件
+
+    void initStatus();
 };
 
 #endif // NOTEPAD_H

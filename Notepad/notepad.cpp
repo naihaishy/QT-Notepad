@@ -26,6 +26,7 @@ Notepad::Notepad(QWidget *parent) : QMainWindow(parent), ui(new Ui::Notepad)
     // 状态栏
     showStatusBar();
 
+    initStatus();
 }
 
 Notepad::~Notepad()
@@ -33,6 +34,26 @@ Notepad::~Notepad()
     delete ui;
 }
 
+/***打开程序的初始化工作***/
+void Notepad::initStatus()
+{
+    ui->actionUndo->setDisabled(true);
+    ui->actionCut->setDisabled(true);
+    ui->actionCopy->setDisabled(true);
+    ui->actionDelete->setDisabled(true);
+    ui->actionPaste->setDisabled(true);
+
+    //实例化clipboard对象
+    clip = QApplication::clipboard();
+
+    connect(clip, SIGNAL(dataChanged()), this, SLOT(updateMenuActionStatus()));
+
+    //撤销
+    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SLOT(updateMenuActionStatus()));
+
+    connect(ui->textEdit, SIGNAL(selectionChanged()), this, SLOT(updateMenuActionStatus()));
+
+}
 /***状态栏***/
 void Notepad::showStatusBar()
 {
@@ -56,13 +77,9 @@ void Notepad::showStatusBar()
 void Notepad::highlightCurrentLine()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
-
     if (!ui->textEdit->isReadOnly()) {
-
         QTextEdit::ExtraSelection selection;
-
         QColor lineColor = QColor(Qt::yellow).lighter(160);
-
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
         selection.cursor = ui->textEdit->textCursor();
@@ -333,7 +350,8 @@ void Notepad::on_actionURL_Decode_triggered()
 {
 
 }
-/***SLOT:打开***/
+
+/***SLOT:转换为大写***/
 void Notepad::on_actionConvert_to_Upper_triggered()
 {
     // 当前cursor对象
@@ -351,6 +369,7 @@ void Notepad::on_actionConvert_to_Upper_triggered()
 
 }
 
+/***SLOT:转换为小写***/
 void Notepad::on_actionConver_to_Lower_triggered()
 {
     // 当前cursor对象
@@ -368,6 +387,7 @@ void Notepad::on_actionConver_to_Lower_triggered()
 
 }
 
+/***SLOT:首字母大写***/
 void Notepad::on_actionFirst_Letter_Upper_triggered()
 {
     // 当前cursor对象
@@ -395,6 +415,7 @@ void Notepad::on_actionFirst_Letter_Upper_triggered()
     ui->textEdit->setTextCursor(cursor);
 }
 
+/***SLOT:大小写相互转换***/
 void Notepad::on_actionConvert_UL_triggered()
 {
     // 当前cursor对象
@@ -422,6 +443,35 @@ void Notepad::on_actionConvert_UL_triggered()
     cursor.insertText(text);
     // 设置光标对象
     ui->textEdit->setTextCursor(cursor);
+}
+
+/***SLOT:更新Menu Action状态***/
+void Notepad::updateMenuActionStatus()
+{
+    if(ui->textEdit->isUndoRedoEnabled())
+    {
+        ui->actionUndo->setEnabled(true);
+    }else{
+        ui->actionUndo->setDisabled(true);
+    }
+
+    if(ui->textEdit->textCursor().hasSelection())
+    {
+        ui->actionCopy->setEnabled(true);
+        ui->actionDelete->setEnabled(true);
+        ui->actionCut->setEnabled(true);
+    }else{
+        ui->actionCopy->setDisabled(true);
+        ui->actionDelete->setDisabled(true);
+        ui->actionCut->setDisabled(true);
+    }
+
+    //剪贴板
+    if(!clip->text().isEmpty()){
+        ui->actionPaste->setEnabled(true);
+    }else{
+        ui->actionPaste->setDisabled(true);
+    }
 }
 
 
