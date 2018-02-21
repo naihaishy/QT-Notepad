@@ -23,11 +23,7 @@
     <normaloff>:/images/favicon.ico</normaloff>:/images/favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTextEdit" name="textEdit"/>
-    </item>
-   </layout>
+   <layout class="QGridLayout" name="gridLayout"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -135,6 +131,7 @@
     <addaction name="actionAbout"/>
     <addaction name="actionBlog"/>
     <addaction name="actionDonate"/>
+    <addaction name="actionReboot"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu"/>
@@ -152,6 +149,17 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -409,6 +417,15 @@
   <action name="actionDecrypt_File">
    <property name="text">
     <string>Decrypt File</string>
+   </property>
+  </action>
+  <action name="actionReboot">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/reboot .png</normaloff>:/images/images/reboot .png</iconset>
+   </property>
+   <property name="text">
+    <string>Reboot</string>
    </property>
   </action>
  </widget>

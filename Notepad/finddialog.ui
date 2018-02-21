@@ -10,6 +10,11 @@
     <height>358</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft JhengHei</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Find</string>
   </property>

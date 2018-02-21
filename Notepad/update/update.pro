@@ -1,17 +1,16 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-02-08T20:57:13
+# Project created by QtCreator 2018-02-20T18:51:10
 #
 #-------------------------------------------------
 
-QT       += core gui network
-QT       += printsupport
+QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Notepad
+TARGET = update
 TEMPLATE = app
-CONFIG+=static
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -27,32 +26,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        notepad.cpp \
-    md5dialog.cpp \
-    finddialog.cpp \
-    highlighter.cpp \
-    commonhelper.cpp \
-    codeeditor.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        notepad.h \
-    md5dialog.h \
-    finddialog.h \
-    highlighter.h \
-    commonhelper.h \
-    codeeditor.h \
-    globalmacro.h
+        mainwindow.h
 
 FORMS += \
-        notepad.ui \
-    md5dialog.ui \
-    finddialog.ui
-
-RESOURCES += \
-    resources.qrc
-
-TRANSLATIONS = NotepadI18N_zh_CN.ts
-
+        mainwindow.ui
 RC_ICONS += favicon.ico
-
-

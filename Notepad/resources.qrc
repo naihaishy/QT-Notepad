@@ -21,8 +21,12 @@
         <file>images/font.png</file>
         <file>images/update.png</file>
         <file>images/blog.png</file>
+        <file>images/reboot .png</file>
     </qresource>
     <qresource prefix="/language">
         <file>NotepadI18N_zh_CN.qm</file>
+    </qresource>
+    <qresource prefix="/style">
+        <file>dark.qss</file>
     </qresource>
 </RCC>

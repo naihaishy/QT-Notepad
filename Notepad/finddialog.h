@@ -2,7 +2,7 @@
 #define FINDDIALOG_H
 
 #include <QDialog>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QMessageBox>
 #include <QTextCursor>
 #include <QDebug>
@@ -18,7 +18,7 @@ class FindDialog : public QDialog
 
 public:
     explicit FindDialog(QWidget *parent = 0, QString flag = "find");
-    QTextEdit *docmainEdit;
+    QPlainTextEdit *docmainEdit;
     ~FindDialog();
 
 private slots:
