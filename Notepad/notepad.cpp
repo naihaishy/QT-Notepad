@@ -53,6 +53,14 @@ void Notepad::initStatus()
     connect(codeEditor, SIGNAL(undoAvailable(bool)), this, SLOT(updateMenuActionStatus()));
     connect(codeEditor, SIGNAL(selectionChanged()), this, SLOT(updateMenuActionStatus()));
 
+    //右下角提示
+    m_pShowTimer = new QTimer(this);
+    m_pStayTimer = new QTimer(this);
+    m_pCloseTimer = new QTimer(this);
+    m_dTransparent = 1.0;
+    connect(m_pShowTimer, SIGNAL(timeout()), this, SLOT(tipsMessageMove()));
+    connect(m_pStayTimer, SIGNAL(timeout()), this, SLOT(tipsMessageStay()));
+    connect(m_pCloseTimer, SIGNAL(timeout()), this, SLOT(tipsMessageClose()));
 
 }
 
@@ -588,7 +596,8 @@ void Notepad::updateAboutWidet(QTextEdit *text, QString content)
 /***SLOT:软件检查更新***/
 void Notepad::on_actionUpdate_triggered()
 {
-    QString program = "E:/Windows10Upgrade9252.exe";
+    QString program = QString(QApplication::applicationDirPath() + "/update.exe");
+    qDebug() << program;
     QStringList arguments;
     QProcess *process = new QProcess(this);
     process->setProcessChannelMode(QProcess::SeparateChannels);
@@ -605,5 +614,158 @@ void Notepad::on_actionReboot_triggered()
     QString workingDirectory = QDir::currentPath();
     QProcess::startDetached(program, arguments, workingDirectory);
     QApplication::exit();
+
+}
+
+/***SLOT:捐赠***/
+void Notepad::on_actionDonate_triggered()
+{
+
+}
+
+
+void Notepad::showTipsMessage()
+{
+    QDesktopWidget *desktop = QApplication::desktop();
+    //获取可用桌面大小
+    QRect rect = desktop->availableGeometry();
+    // 屏幕的高度
+    int screenHeight = desktop->screenGeometry().height();
+    // 可用桌面的高度
+    m_nDesktopHeight = desktop->availableGeometry().height();
+    // 任务栏的高度
+    int taskBarHeight = screenHeight - m_nDesktopHeight ;
+
+
+    //实例化Tips窗体控件
+    tipsDlg = new QDialog();
+    tipsDlg->setWindowTitle(tr("Tips Window"));
+    QHBoxLayout *lay = new QHBoxLayout(tipsDlg);
+    QTextEdit *text = new QTextEdit(tipsDlg);
+    text->setText(tr("Statamic is different than other Content Management Systems like Wordpress, Drupal, or Craft CMS in many important and powerful ways, but the most obvious is we removed the MySQL database. It's for the greater good."));
+    lay->addWidget(text);
+
+    tipsDlg->show();
+
+    // Tips窗体的左上角点位置
+    m_point.setX(rect.width() - tipsDlg->frameGeometry().width());
+    m_point.setY(rect.height() - tipsDlg->frameGeometry().height());
+    // 将Tips窗体移至指定位置
+    tipsDlg->move(m_point.x(), m_point.y());
+
+    //显示开始计时
+    m_pShowTimer->start(3);
+
+    //当点击窗体时显示为不透明 或者鼠标进入tips窗体时显示为不透明 m_pStayTimer 重新计时
+
+}
+
+/***SLOT:移动Tips窗体***/
+void Notepad::tipsMessageMove()
+{
+    // 向上移动
+    m_nDesktopHeight--;
+    // x不变 向上移动
+    tipsDlg->move(m_point.x(), m_nDesktopHeight);
+    if (m_nDesktopHeight <= m_point.y())
+    {
+        m_pShowTimer->stop();//显示结束计时
+        m_pStayTimer->start(1000);// 停留开始计时
+    }
+}
+
+void Notepad::tipsMessageStay()
+{
+    // 停留结束计时
+    m_pStayTimer->stop();
+    // 关闭开始计时
+    m_pCloseTimer->start(100);
+}
+
+void Notepad::tipsMessageClose()
+{
+    m_dTransparent -= 0.01;
+    if (m_dTransparent <= 0.0)
+    {
+        // 关闭停止计时
+        m_pCloseTimer->stop();
+        // 关闭Tips窗体
+        tipsDlg->close();
+    }
+    else
+    {
+        tipsDlg->setWindowOpacity(m_dTransparent);
+    }
+}
+
+/***SLOT:软件使用统计****/
+void Notepad::on_actionStatics_triggered()
+{
+    setting->beginGroup("Statics");
+    QString useTime = setting->value("usetime", QVariant(0)).toString();//使用软件的总时长 分钟
+    QString startSoftwareTimes = setting->value("startsoftwaretimes", QVariant(0)).toString();// 打开软件的总次数
+    setting->endGroup();
+
+    // 画图
+    //QFont font("Times New Roman");
+
+    //![1]
+    QBarSet *set0 = new QBarSet("Jane");
+    QBarSet *set1 = new QBarSet("John");
+    QBarSet *set2 = new QBarSet("Axel");
+    QBarSet *set3 = new QBarSet("Mary");
+    QBarSet *set4 = new QBarSet("Samantha");
+
+
+
+    *set0 << 1 << 2 << 3 << 4 << 5 << 6;
+    *set1 << 5 << 0 << 0 << 4 << 0 << 7;
+    *set2 << 3 << 5 << 8 << 13 << 8 << 5;
+    *set3 << 5 << 6 << 7 << 3 << 4 << 5;
+    *set4 << 9 << 7 << 5 << 3 << 1 << 2;
+//![1]
+
+//![2]
+    QBarSeries *series = new QBarSeries();
+    series->append(set0);
+    series->append(set1);
+    series->append(set2);
+    series->append(set3);
+    series->append(set4);
+
+//![2]
+
+//![3]
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle("Simple barchart example");
+
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+//![3]
+
+//![4]
+    QStringList categories;
+    categories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun";
+    QBarCategoryAxis *axis = new QBarCategoryAxis();
+    axis->append(categories);
+    chart->createDefaultAxes();
+    chart->setAxisX(axis, series);
+//![4]
+
+//![5]
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+//![5]
+
+//![6]
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+//![6]
+
+//![7]
+    chartView->resize(420, 300);
+    chartView->setWindowTitle(tr("Statics"));
+    chartView->show();
+//![7]
 
 }

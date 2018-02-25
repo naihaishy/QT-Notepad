@@ -22,6 +22,9 @@
         <file>images/update.png</file>
         <file>images/blog.png</file>
         <file>images/reboot .png</file>
+        <file>images/statics.png</file>
+        <file>images/loginout.png</file>
+        <file>images/user.png</file>
     </qresource>
     <qresource prefix="/language">
         <file>NotepadI18N_zh_CN.qm</file>

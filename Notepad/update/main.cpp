@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QSystemSemaphore sema("notepad",1,QSystemSemaphore::Open);
-    sema.acquire();// 在临界区操作共享内存   SharedMemory
+    sema.acquire();// 在临界区操作共享内存
+
     QSharedMemory mem("notepad_update");// 全局对象名
     if (!mem.create(1))// 如果全局对象以存在则退出
     {

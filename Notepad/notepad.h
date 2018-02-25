@@ -25,6 +25,10 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QProcess>
+#include <QTimer>
+#include <QDesktopWidget>
+#include <QtCharts>
+
 
 #include "highlighter.h"
 #include "codeeditor.h"
@@ -53,12 +57,16 @@ protected:
 
     void updateAboutWidet(QTextEdit *text, QString content);
 
+    void showTipsMessage();
 protected slots:
 
     void updateMenuActionStatus();
 
     void updateSetting();
 
+    void tipsMessageMove();
+    void tipsMessageStay();
+    void tipsMessageClose();
 private slots:
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
@@ -88,6 +96,10 @@ private slots:
     void on_actionUpdate_triggered();
     void on_actionReboot_triggered();
 
+    void on_actionDonate_triggered();
+
+    void on_actionStatics_triggered();
+
 private:
     Ui::Notepad *ui;
     QString CurrentFile;
@@ -105,6 +117,15 @@ private:
 
     //语法高亮
     Highlighter *highlighter;
+
+    // 右下角提示
+    QTimer *m_pShowTimer;
+    QTimer *m_pStayTimer;
+    QTimer *m_pCloseTimer;
+    QPoint m_point;
+    double m_dTransparent; //透明度
+    int m_nDesktopHeight;
+    QDialog *tipsDlg;
 
     bool loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);

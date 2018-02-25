@@ -132,6 +132,15 @@
     <addaction name="actionBlog"/>
     <addaction name="actionDonate"/>
     <addaction name="actionReboot"/>
+    <addaction name="actionStatics"/>
+   </widget>
+   <widget class="QMenu" name="menuUser">
+    <property name="title">
+     <string>User</string>
+    </property>
+    <addaction name="actionInfo"/>
+    <addaction name="separator"/>
+    <addaction name="actionLoginout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu"/>
@@ -139,6 +148,7 @@
    <addaction name="menuTools"/>
    <addaction name="menuSetting"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuUser"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -426,6 +436,33 @@
    </property>
    <property name="text">
     <string>Reboot</string>
+   </property>
+  </action>
+  <action name="actionLoginout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/loginout.png</normaloff>:/images/images/loginout.png</iconset>
+   </property>
+   <property name="text">
+    <string>Loginout</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/user.png</normaloff>:/images/images/user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Info</string>
+   </property>
+  </action>
+  <action name="actionStatics">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/statics.png</normaloff>:/images/images/statics.png</iconset>
+   </property>
+   <property name="text">
+    <string>Statics</string>
    </property>
   </action>
  </widget>
