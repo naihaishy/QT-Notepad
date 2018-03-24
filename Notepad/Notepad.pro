@@ -33,7 +33,9 @@ SOURCES += \
     finddialog.cpp \
     highlighter.cpp \
     commonhelper.cpp \
-    codeeditor.cpp
+    codeeditor.cpp \
+    user.cpp \
+    setting.cpp
 
 HEADERS += \
         notepad.h \
@@ -42,12 +44,16 @@ HEADERS += \
     highlighter.h \
     commonhelper.h \
     codeeditor.h \
-    globalmacro.h
+    globalmacro.h \
+    user.h \
+    setting.h
 
 FORMS += \
         notepad.ui \
     md5dialog.ui \
-    finddialog.ui
+    finddialog.ui \
+    user.ui \
+    setting.ui
 
 RESOURCES += \
     resources.qrc

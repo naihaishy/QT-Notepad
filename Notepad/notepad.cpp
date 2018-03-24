@@ -69,7 +69,7 @@ void Notepad::initWindow(QWidget *widget)
 {
     /*Setting的初始化*/
     //setting = new QSettings("The Future", "NotePad");//windows下写入注册表
-    setting = new QSettings(QSettings::IniFormat, QSettings::UserScope, "The Future", "NotePad");//ini文件 user C:\Users\naihai\AppData\Roaming\The Future
+    setting = new QSettings("config.ini", QSettings::IniFormat);//ini文件
 
     setting->beginGroup("mainWindow");
     //窗口大小
@@ -566,8 +566,6 @@ void Notepad::on_actionAbout_triggered()
 
 void Notepad::requestAboutContent(QTextEdit *text)
 {
-
-
     //从网络上获取软件介绍
     QUrl url("http://doc.zhfsky.com/qt/notepad/about.txt");
     QNetworkRequest request(url);
@@ -768,4 +766,16 @@ void Notepad::on_actionStatics_triggered()
     chartView->show();
 //![7]
 
+}
+
+void Notepad::on_actionInfo_triggered()
+{
+    User *user = new User(this);
+    user->show();
+}
+
+void Notepad::on_actionOptions_triggered()
+{
+    Setting *setting = new Setting(this);
+    setting->show();
 }

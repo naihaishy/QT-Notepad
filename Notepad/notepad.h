@@ -32,7 +32,8 @@
 
 #include "highlighter.h"
 #include "codeeditor.h"
-
+#include "user.h"
+#include "setting.h"
 
 namespace Ui {
 class Notepad;
@@ -95,10 +96,10 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionUpdate_triggered();
     void on_actionReboot_triggered();
-
     void on_actionDonate_triggered();
-
     void on_actionStatics_triggered();
+    void on_actionInfo_triggered();
+    void on_actionOptions_triggered();
 
 private:
     Ui::Notepad *ui;

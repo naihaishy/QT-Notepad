@@ -12,11 +12,8 @@ int main(int argc, char *argv[])
     QTranslator translator;
     translator.load(":/language/NotepadI18N_zh_CN.qm");
     a.installTranslator(&translator);
-
-
     // 主窗口
     Notepad w;
     w.show();
-
     return a.exec();
 }
