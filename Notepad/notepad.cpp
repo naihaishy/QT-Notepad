@@ -73,7 +73,7 @@ void Notepad::initWindow(QWidget *widget)
 
     setting->beginGroup("mainWindow");
     //窗口大小
-    QSize winSize = setting->value("winSize", QSize(640, 512)).toSize();
+    QSize winSize = setting->value("winSize", QSize(800, 1000)).toSize();
     widget->resize(winSize);
 
     bool maximSize = setting->value("maximSize", false).toBool();
@@ -779,3 +779,16 @@ void Notepad::on_actionOptions_triggered()
     Setting *setting = new Setting(this);
     setting->show();
 }
+
+void Notepad::on_actionJSON_triggered()
+{
+}
+
+void Notepad::on_actionHide_triggered()
+{
+    TrayMenu *traymenu = new TrayMenu(this);
+    traymenu->trayIcon->show();
+    hide();
+}
+
+

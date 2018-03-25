@@ -25,6 +25,8 @@
         <file>images/statics.png</file>
         <file>images/loginout.png</file>
         <file>images/user.png</file>
+        <file>images/json.png</file>
+        <file>images/hide.png</file>
     </qresource>
     <qresource prefix="/language">
         <file>NotepadI18N_zh_CN.qm</file>
@@ -32,4 +34,5 @@
     <qresource prefix="/style">
         <file>dark.qss</file>
     </qresource>
+    <qresource prefix="/icons"/>
 </RCC>

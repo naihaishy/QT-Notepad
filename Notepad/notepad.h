@@ -34,6 +34,7 @@
 #include "codeeditor.h"
 #include "user.h"
 #include "setting.h"
+#include "traymenu.h"
 
 namespace Ui {
 class Notepad;
@@ -68,6 +69,7 @@ protected slots:
     void tipsMessageMove();
     void tipsMessageStay();
     void tipsMessageClose();
+
 private slots:
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
@@ -100,6 +102,11 @@ private slots:
     void on_actionStatics_triggered();
     void on_actionInfo_triggered();
     void on_actionOptions_triggered();
+
+    void on_actionJSON_triggered();
+
+    void on_actionHide_triggered();
+
 
 private:
     Ui::Notepad *ui;

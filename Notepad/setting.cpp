@@ -221,6 +221,7 @@ QWidget *EditorPage::SetFontsTab()
     for(int i=6;i<72;i++){
         comb2->addItem(QVariant(i).toString());
     }
+    comb2->setCurrentIndex(10);
     layou2->addWidget(label2);
     layou2->addWidget(comb2);
     //分组1行内布局
@@ -231,6 +232,7 @@ QWidget *EditorPage::SetFontsTab()
     spin3->setMaximum(600);
     spin3->setSingleStep(10);
     spin3->setValue(100);
+    spin3->setSuffix("%");
 
     layou3->addWidget(label3);
     layou3->addWidget(spin3);

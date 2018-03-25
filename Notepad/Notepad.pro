@@ -35,7 +35,9 @@ SOURCES += \
     commonhelper.cpp \
     codeeditor.cpp \
     user.cpp \
-    setting.cpp
+    setting.cpp \
+    jsondialog.cpp \
+    traymenu.cpp
 
 HEADERS += \
         notepad.h \
@@ -46,14 +48,17 @@ HEADERS += \
     codeeditor.h \
     globalmacro.h \
     user.h \
-    setting.h
+    setting.h \
+    jsondialog.h \
+    traymenu.h
 
 FORMS += \
         notepad.ui \
     md5dialog.ui \
     finddialog.ui \
     user.ui \
-    setting.ui
+    setting.ui \
+    jsondialog.ui
 
 RESOURCES += \
     resources.qrc
