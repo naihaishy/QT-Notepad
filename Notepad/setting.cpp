@@ -141,7 +141,7 @@ QWidget *EnvironmentPage::SetSystemTab()
     QVBoxLayout *layout = new QVBoxLayout(box);
     //组1组件
     QCheckBox *check1 = new QCheckBox(tr("Auto-save modified files"));
-    QCheckBox *check2 = new QCheckBox(tr("Warn"));
+    QCheckBox *check2 = new QCheckBox(tr("Minimize the window when close"));
     layout->setSpacing(5);
     layout->addWidget(check1);
     layout->addWidget(check2);
@@ -160,7 +160,7 @@ QWidget *EnvironmentPage::SetSystemTab()
     {
         setting->beginGroup("Environment");
         QString value = state==2? "yes":"no";
-        setting->setValue("Warn", value);
+        setting->setValue("MinimizeClose", value);
         setting->endGroup();
     });
 

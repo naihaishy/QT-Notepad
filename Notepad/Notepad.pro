@@ -37,7 +37,8 @@ SOURCES += \
     user.cpp \
     setting.cpp \
     jsondialog.cpp \
-    traymenu.cpp
+    traymenu.cpp \
+    statics.cpp
 
 HEADERS += \
         notepad.h \
@@ -50,7 +51,8 @@ HEADERS += \
     user.h \
     setting.h \
     jsondialog.h \
-    traymenu.h
+    traymenu.h \
+    statics.h
 
 FORMS += \
         notepad.ui \

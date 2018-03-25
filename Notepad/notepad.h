@@ -27,7 +27,7 @@
 #include <QProcess>
 #include <QTimer>
 #include <QDesktopWidget>
-#include <QtCharts>
+
 
 
 #include "highlighter.h"
@@ -35,6 +35,8 @@
 #include "user.h"
 #include "setting.h"
 #include "traymenu.h"
+#include "statics.h"
+
 
 namespace Ui {
 class Notepad;
