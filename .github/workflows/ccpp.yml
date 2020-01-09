@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: jurplel/install-qt-action@v2
-    - uses: actions/checkout@v1
-    - name: qmake
-      run: qmake ./Notepad/Notepad.pro
+      - name: install qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          packages: qtcharts 
+      - uses: actions/checkout@v1
+      - name: qmake
+        run: qmake ./Notepad/Notepad.pro
