@@ -12,7 +12,7 @@ jobs:
       - name: install qt
         uses: jurplel/install-qt-action@v2
         with:
-          packages: qtcharts 
+          modules: qtcharts 
       - uses: actions/checkout@v1
       - name: qmake
         run: qmake ./Notepad/Notepad.pro
